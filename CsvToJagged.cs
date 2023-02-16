@@ -17,7 +17,7 @@ namespace AS_Project2
         /// Uses StreamReader class to accomplish this.
         /// </summary>
         /// <param name="jagArray">Reference to jagged array of preset size.</param>
-        public void ReadToJagged(ref int[][] jagArray, string filePath)
+        public void ReadToJagged(int[][] jagArray, string filePath)
         {
             // try/catch to properly open, utilize, and close StreamReader
             // sourced from StreamReader doc within Microsoft Learn
