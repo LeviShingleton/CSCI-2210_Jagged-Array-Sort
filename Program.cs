@@ -15,57 +15,102 @@ namespace AS_Project2
     internal class Program
     {
         #region Global Variables
+        // Sorting, searching objects for use in Program.cs || Global for console output references
         static QuickSort quickSorter= new QuickSort();
+        static SelectionSort selectionSorter = new SelectionSort();
         static BinarySearch binarySearcher = new BinarySearch();
         #endregion
         static void Main(string[] args)
         {
             #region Main Variables
-            int[][] csvJagArray = new int[20][];
+            int[][] quickSortJagged = new int[20][], selectSortJagged = new int[20][];  // Jagged arrays to sort
+            const string HR = "\n------------------------------------------\n";         // horizontal line for console output
+            // Input data from csv file
             string filepath = @"..\..\..\External Resources\inputJagged.csv";
-            CsvToJagged reader = new CsvToJagged();
+            CsvToJagged csvReader = new CsvToJagged();
             #endregion
 
             #region Getting CSV Data
             // Read .csv contents to csvJagArray
-            reader.ReadToJagged(csvJagArray, filepath);
+            csvReader.ReadToJagged(quickSortJagged, filepath);
+            csvReader.ReadToJagged(selectSortJagged, filepath);
+            #endregion
 
-            if(csvJagArray.Length != 0) // Ensure that input array isn't empty
+            #region QuickSort
+            if (quickSortJagged.Length > 0) // Ensure that input array isn't empty
             {
-                JaggedSort(csvJagArray); // Use QuickSort to sort the subarrays
+                Console.WriteLine($"QuickSort {HR}");
 
-                Console.WriteLine(PrintJaggedArray( csvJagArray));
+                JaggedQuickSort(quickSortJagged); // Use QuickSort to sort the subarrays
+
+                Console.WriteLine(PrintJaggedArray(quickSortJagged));  // Write each line of CSV to console
+                Console.WriteLine($"QuickSort elapsed time: {quickSorter.quickWatch.Elapsed} " +
+                    $"using {quickSorter.Iterations} iterations.{HR}");
+            }
+            #endregion
+
+            #region SelectSort
+            if (selectSortJagged.Length > 0) 
+            {
+                Console.WriteLine($"Selection Sort {HR}");
+
+                JaggedSelectSort(selectSortJagged);
+
+                Console.WriteLine(PrintJaggedArray(selectSortJagged));
+                Console.WriteLine($"Selection Sort elapsed time: {selectionSorter.selectWatch.Elapsed} " +
+                    $"using {selectionSorter.Iterations} iterations.{HR}");
             }
             #endregion
 
             #region Binary Search Output
-            int intTarget = 256;
-            for (int i = 0; i < csvJagArray.Length; i++)
+            int searchTarget = 256;
+            string result = "";     // container for all lines of binary search output
+            Console.WriteLine($"Binary Search: Target {searchTarget}{HR}");
+
+            for (int i = 0; i < quickSortJagged.Length; i++)
             {
-                string strTargetIndex = binarySearcher.SearchArray(intTarget,  csvJagArray[i]).ToString();  // Perform binary search for 256
+                string line = $"Subarray {i.ToString("D2")} : ";                                                   // Each line begins with array label
+                string strTargetIndex = binarySearcher.SearchArray(searchTarget,  quickSortJagged[i]).ToString();  // Perform binary search for target
+                // Determine if found or not
                 if (strTargetIndex == "-1")
                 {
-                    Console.WriteLine(
-                        $"{strTargetIndex}: {intTarget} not found");
+                    line += $"{strTargetIndex} : {searchTarget} not found.\n";
                 }
                 else
                 {
-                    Console.WriteLine($"{intTarget} found at index {strTargetIndex}.");
+                    line += $"{searchTarget} found at index {strTargetIndex}.\n";
                 }
+
+                // Write completed line
+                result += line;
             }
+
+            Console.Write(result);
             #endregion
         }
 
         /// <summary>
-        /// Driver method to sort the subarrays of an integer jagged array.
+        /// Driver method to sort the integer subarrays of a jagged array using Quick Sort
         /// </summary>
         /// <param name="arrayToSort">The jagged array to be sorted</param>
-        public static void JaggedSort(int[][] arrayToSort)
+        public static void JaggedQuickSort(int[][] arrayToSort)
         {
             // Sorting Loop, iterating over subarrays
             for (int i = 0; i < arrayToSort.Length; i++) 
             {
                 quickSorter.SortArray(arrayToSort[i], 0, arrayToSort[i].Length - 1);
+            }
+        }
+
+        /// <summary>
+        /// Driver method to sort the integer subarrays of a jagged array using Selection Sort
+        /// </summary>
+        /// <param name="arrayToSort">The jagged array to be sorted</param>
+        public static void JaggedSelectSort(int[][] arrayToSort)
+        {
+            for (int i = 0; i < arrayToSort.Length; i++)
+            {
+                selectionSorter.SortArray(arrayToSort[i]);
             }
         }
 

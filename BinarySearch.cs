@@ -6,7 +6,6 @@
 // Description: Class that holds methods in order to use binary search algorithm
 //              to search for a target in a collection
 //              (currently only jagged array)
-//
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace AS_SortJaggedArray

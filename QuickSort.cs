@@ -4,9 +4,12 @@
 // Course: CSCI-2210-001 - Data Structures
 // Assignment: Project 2 - Jagged Array Sorting
 // Description: Class that holds methods in order to use QuickSort algorithm
-//              to sort a collection (currently only jagged array)
+//              to sort a collection (currently only int array)
 //
+// Complexity: O(nLog(n))
 ///////////////////////////////////////////////////////////////////////////////
+
+using System.Diagnostics;
 
 namespace AS_SortJaggedArray
 {
@@ -14,6 +17,11 @@ namespace AS_SortJaggedArray
     {
         #region QuickSort
         // Sourced from https://www.geeksforgeeks.org/quick-sort/ with modifications for clarity
+
+        // Counter for for iterations within data set
+        public int Iterations = 0;
+        // Timing of sort
+        public Stopwatch quickWatch = new Stopwatch();
 
         /// <summary>
         /// Recursively partitions array into subarrays to be sorted by QuickSort method
@@ -26,12 +34,15 @@ namespace AS_SortJaggedArray
             // Check to see if quicksort has finished
             if (start < end)
             {
+                quickWatch.Start();
                 // partIndex is partitioning index
                 int partIndex = SortPartition(array, start, end);
 
                 // Separately sort elements pre- and post- partition
                 SortArray(array, start, partIndex - 1);
                 SortArray(array, partIndex + 1, end);
+
+                quickWatch.Stop();
             }
         }
         /// <summary>
@@ -54,7 +65,7 @@ namespace AS_SortJaggedArray
             // From start to everything up to the pivot (last index)
             for (int j = start; j <= end - 1; j++)
             {
-
+                Iterations++;
                 // If current element is smaller than pivot
                 if (partitionArray[j] < pivot)
                 {
@@ -70,17 +81,18 @@ namespace AS_SortJaggedArray
             return (leftIndex + 1);
         }
 
+        // NOTE: This class is given its own copy of ArraySwap such that it could be freely copied to another project (decoupling).
         /// <summary>
         /// Swaps elements of the given array indices.
         /// </summary>
         /// <param name="array">Input array, passed by reference</param>
-        /// <param name="source">The index of the first element to be swapped</param>
-        /// <param name="destination">The index of the second element to be swapped</param>
-        void ArraySwap(int[] array, int source, int destination)
+        /// <param name="first">The index of the first element to be swapped</param>
+        /// <param name="second">The index of the second element to be swapped</param>
+        void ArraySwap(int[] array, int first, int second)
         {
-            var temp = array[source];
-            array[source] = array[destination];
-            array[destination] = temp;
+            var temp = array[first];
+            array[first] = array[second];
+            array[second] = temp;
         }
         #endregion
     }
