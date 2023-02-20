@@ -31,7 +31,7 @@ namespace AS_Project2
             #endregion
 
             #region Getting CSV Data
-            // Read .csv contents to csvJagArray
+            // Read .csv contents to jagged array
             csvReader.ReadToJagged(quickSortJagged, filepath);
             csvReader.ReadToJagged(selectSortJagged, filepath);
             #endregion

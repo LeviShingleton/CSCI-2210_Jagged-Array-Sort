@@ -18,9 +18,13 @@ namespace AS_SortJaggedArray
         #region QuickSort
         // Sourced from https://www.geeksforgeeks.org/quick-sort/ with modifications for clarity
 
-        // Counter for for iterations within data set
+        /// <summary>
+        /// Counter for sort iterations on data set
+        /// </summary>
         public int Iterations = 0;
-        // Timing of sort
+        /// <summary>
+        /// Stopwatch that tracks the time to sort completely
+        /// </summary>
         public Stopwatch quickWatch = new Stopwatch();
 
         /// <summary>
@@ -35,10 +39,10 @@ namespace AS_SortJaggedArray
             if (start < end)
             {
                 quickWatch.Start();
-                // partIndex is partitioning index
+                // partIndex is partitioning index; this represents the initial separation of sorted and unsorted
                 int partIndex = SortPartition(array, start, end);
 
-                // Separately sort elements pre- and post- partition
+                // Separately sort elements pre- and post- 1st pivot
                 SortArray(array, start, partIndex - 1);
                 SortArray(array, partIndex + 1, end);
 
@@ -46,7 +50,7 @@ namespace AS_SortJaggedArray
             }
         }
         /// <summary>
-        /// Uses in-place swapping to push indices around based on pivot in last index.
+        /// Uses in-place swapping to move elements smaller than pivot to left hand side of array
         /// </summary>
         /// <param name="partitionArray"></param>
         /// <param name="start"></param>
@@ -59,23 +63,23 @@ namespace AS_SortJaggedArray
             int pivot = partitionArray[end];
 
             // Index of smaller element, array is correct up to this point
-            // - 1 to accomodate implementation of increment
+            // - 1 to accomodate implementation of leftIndex
             int leftIndex = (start - 1);
 
             // From start to everything up to the pivot (last index)
-            for (int j = start; j <= end - 1; j++)
+            for (int i = start; i <= end - 1; i++)
             {
                 Iterations++;
                 // If current element is smaller than pivot
-                if (partitionArray[j] < pivot)
+                if (partitionArray[i] < pivot)
                 {
                     // Increment left index to get correct placement position
                     leftIndex++;
-                    // Swap jth element into the leftIndex position
-                    ArraySwap(partitionArray, leftIndex, j);
+                    // Swap ith element into the leftIndex position
+                    ArraySwap(partitionArray, leftIndex, i);
                 }
             }
-            // Put the pivot in the right spot within the partition
+            // Put the pivot in the correct spot within the partition
             ArraySwap(partitionArray, leftIndex + 1, end);
             // Return the index where the current pivot is placed into the partition
             return (leftIndex + 1);
@@ -88,7 +92,7 @@ namespace AS_SortJaggedArray
         /// <param name="array">Input array, passed by reference</param>
         /// <param name="first">The index of the first element to be swapped</param>
         /// <param name="second">The index of the second element to be swapped</param>
-        void ArraySwap(int[] array, int first, int second)
+        private void ArraySwap(int[] array, int first, int second)
         {
             var temp = array[first];
             array[first] = array[second];
