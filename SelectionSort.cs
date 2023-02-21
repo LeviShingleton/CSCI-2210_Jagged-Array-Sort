@@ -27,6 +27,11 @@ namespace AS_SortJaggedArray
         /// Stopwatch that tracks the time to sort completely
         /// </summary>
         public Stopwatch selectWatch = new Stopwatch();
+        
+        /// <summary>
+        /// Sorts integer array using Selection Sort algorithm.
+        /// </summary>
+        /// <param name="array">Input integer array to be sorted</param>
         public void SortArray(int[] array)
         {
             selectWatch.Start();
@@ -55,13 +60,13 @@ namespace AS_SortJaggedArray
         /// Swaps elements of the given array indices.
         /// </summary>
         /// <param name="array">Input array, passed by reference</param>
-        /// <param name="source">The index of the first element to be swapped</param>
-        /// <param name="destination">The index of the second element to be swapped</param>
-        private void ArraySwap(int[] array, int source, int destination)
+        /// <param name="first">The index of the first element to be swapped</param>
+        /// <param name="second">The index of the second element to be swapped</param>
+        private void ArraySwap(int[] array, int first, int second)
         {
-            var temp = array[source];
-            array[source] = array[destination];
-            array[destination] = temp;
+            var temp = array[first];
+            array[first] = array[second];
+            array[second] = temp;
         }
     }
 }
